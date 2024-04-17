@@ -9,3 +9,13 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = '__all__'
+
+
+class UserDetailSerializer(serializers.ModelSerializer):
+    """Сериализатор для просмотра профиля пользователя,
+       включает поле успешно пройденных тестов"""
+    completed_tests = ...
+
+    class Meta:
+        model = User
+        fields = '__all__'
