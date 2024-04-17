@@ -18,4 +18,12 @@ class UserDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = '__all__'
+        exclude = ['password']
+
+
+class UserListSerializer(serializers.ModelSerializer):
+    """Сериализатор для просмотра списка пользователей"""
+
+    class Meta:
+        model = User
+        fields = ('id', 'email', 'role')

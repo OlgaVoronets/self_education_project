@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 
 from users.models import User
-from users.serializers import UserSerializer, UserDetailSerializer
+from users.serializers import UserSerializer, UserDetailSerializer, UserListSerializer
 
 
 class UserCreateView(generics.CreateAPIView):
@@ -46,5 +46,5 @@ class UserDeleteView(generics.DestroyAPIView):
 
 class UserListView(generics.ListAPIView):
     """Просмотр списка зарегистрированных пользователей"""
-    serializer_class = UserSerializer
+    serializer_class = UserListSerializer
     queryset = User.objects.all()
