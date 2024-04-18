@@ -33,7 +33,7 @@ class AnswerSerializer(serializers.ModelSerializer):
     """Базовый сериализатор для модели ответа"""
     class Meta:
         model = Answer
-        fields = '__all__'
+        fields = ('text', 'is_correct')
 
 
 class CourseDetailSerializer(serializers.ModelSerializer):
@@ -75,5 +75,5 @@ class TestingDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Testing
-        fields = '__all__'
+        fields = ('lesson', 'text', 'answers_list')
 

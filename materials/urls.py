@@ -21,9 +21,9 @@ urlpatterns = [
     path('lesson/<int:pk>/update/', LessonUpdateView.as_view(), name='lesson_update'),
     path('lesson/<int:pk>/delete/', LessonDeleteView.as_view(), name='lesson_delete'),
     #  Модель тестирования
-    path('testing/create/', TestingListCreateView.as_view(), name='testing_list_create'),
-    path('testing/<int:pk>/delete/', TestingDetailDeleteView.as_view(), name='testing_detail_delete'),
+    path('testing/', TestingListCreateView.as_view(), name='testing_list_create'),
+    path('testing/<int:pk>/', TestingDetailDeleteView.as_view(), name='testing_detail_delete'),
     #  Модель ответа на тест
-    path('answer/create/', AnswerListCreateView.as_view(), name='answer_list_create'),
-    path('answer/<int:pk>/delete/', AnswerDetailDeleteView.as_view(), name='answer_detail_delete'),
+    path('answer/', AnswerListCreateView.as_view(), name='answer_list_create'),
+    path('answer/<int:pk>/', AnswerDetailDeleteView.as_view(), name='answer_detail_delete'),
 ]
