@@ -2,7 +2,8 @@ from django.urls import path
 
 from materials.apps import MaterialsConfig
 from materials.views import CourseCreateView, CourseListView, CourseDetailView, CourseUpdateView, CourseDeleteView, \
-    LessonListView, LessonCreateView, LessonDetailView, LessonUpdateView, LessonDeleteView
+    LessonListView, LessonCreateView, LessonDetailView, LessonUpdateView, LessonDeleteView, TestingListCreateView, \
+    TestingDetailDeleteView, AnswerListCreateView, AnswerDetailDeleteView
 
 app_name = MaterialsConfig.name
 
@@ -20,5 +21,9 @@ urlpatterns = [
     path('lesson/<int:pk>/update/', LessonUpdateView.as_view(), name='lesson_update'),
     path('lesson/<int:pk>/delete/', LessonDeleteView.as_view(), name='lesson_delete'),
     #  Модель тестирования
-
+    path('testing/create/', TestingListCreateView.as_view(), name='testing_list_create'),
+    path('testing/<int:pk>/delete/', TestingDetailDeleteView.as_view(), name='testing_detail_delete'),
+    #  Модель ответа на тест
+    path('answer/create/', AnswerListCreateView.as_view(), name='answer_list_create'),
+    path('answer/<int:pk>/delete/', AnswerDetailDeleteView.as_view(), name='answer_detail_delete'),
 ]

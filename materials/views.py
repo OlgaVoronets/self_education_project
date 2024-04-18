@@ -1,7 +1,8 @@
 from rest_framework import generics
 
-from materials.models import Course, Lesson
-from materials.serializers import CourseSerializer, CourseDetailSerializer, LessonSerializer, LessonDetailSerializer
+from materials.models import Course, Lesson, Testing, Answer
+from materials.serializers import CourseSerializer, CourseDetailSerializer, LessonSerializer, LessonDetailSerializer, \
+    TestingSerializer, TestingDetailSerializer, AnswerSerializer
 from users.permissions import IsModerator
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter
@@ -77,3 +78,48 @@ class LessonListView(generics.ListAPIView):
     filter_backends = [DjangoFilterBackend, OrderingFilter]
     filterset_fields = ('course',)
     ordering_fields = ('title',)
+
+
+"""CRUD для модели тестирования"""
+
+
+class TestingListCreateView(generics.ListCreateAPIView):
+    """Контроллер для создания и просмотра списка тестовых заданий, доступно администраторам платформы
+    метод POST выполняет создание экземпляра
+    метод GET выводит список экземпляров"""
+    serializer_class = TestingSerializer
+    queryset = Testing.objects.all()
+    # permission_classes = [IsModerator]
+
+
+class TestingDetailDeleteView(generics.RetrieveDestroyAPIView):
+    """Контроллер для просмотра и удаления тестового задания, доступно администраторам платформы
+        метод DELETE выполняет удаление экземпляра
+        метод GET выводит экземпляр для просмотра"""
+    serializer_class = TestingDetailSerializer
+    queryset = Testing.objects.all()
+    # permission_classes = [IsModerator]
+
+
+"""CRUD для модели ответа"""
+
+
+class AnswerListCreateView(generics.ListCreateAPIView):
+    """Контроллер для создания и просмотра списка ответов, доступно администраторам платформы
+    метод POST выполняет создание экземпляра
+    метод GET выводит список экземпляров"""
+    serializer_class = AnswerSerializer
+    queryset = Answer.objects.all()
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    filterset_fields = ('testing',)
+    ordering_fields = ('id',)
+    # permission_classes = [IsModerator]
+
+
+class AnswerDetailDeleteView(generics.RetrieveDestroyAPIView):
+    """Контроллер для просмотра и удаления ответа, доступно администраторам платформы
+        метод DELETE выполняет удаление экземпляра
+        метод GET выводит экземпляр для просмотра"""
+    serializer_class = AnswerSerializer
+    queryset = Answer.objects.all()
+    # permission_classes = [IsModerator]
