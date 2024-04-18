@@ -18,7 +18,7 @@ class LessonSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Lesson
-        fields = '__all__'
+        fields = ('title', 'content')
 
 
 class TestingSerializer(serializers.ModelSerializer):
@@ -31,6 +31,7 @@ class TestingSerializer(serializers.ModelSerializer):
 
 class AnswerSerializer(serializers.ModelSerializer):
     """Базовый сериализатор для модели ответа"""
+
     class Meta:
         model = Answer
         fields = ('text', 'is_correct')
@@ -49,7 +50,7 @@ class CourseDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Course
-        fields = '__all__'
+        fields = ('title', 'description', 'lessons_list')
 
 
 class LessonDetailSerializer(serializers.ModelSerializer):
@@ -63,9 +64,10 @@ class LessonDetailSerializer(serializers.ModelSerializer):
 
 
 class TestingDetailSerializer(serializers.ModelSerializer):
-    """Сериализатор просмотра информации о тестовом задании, включает в себя
-    список ответов на тест"""
+    """Сериализатор просмотра информации о тестовом задании, где для урока
+    выводится его наименование, включает в себя список ответов на тест"""
     answers_list = SerializerMethodField()
+    lesson = SlugRelatedField(slug_field='title', queryset=Lesson.objects.all())
 
     @staticmethod
     def get_answers_list(testing):
@@ -76,4 +78,3 @@ class TestingDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Testing
         fields = ('lesson', 'text', 'answers_list')
-

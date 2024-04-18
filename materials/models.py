@@ -23,7 +23,7 @@ class Lesson(models.Model):
     content = models.TextField(verbose_name='Материал урока', **NULLABLE)
 
     def __str__(self):
-        return f'{self.title} из курса {self.course}'
+        return f'{self.title}'
 
     class Meta:
         verbose_name = 'Урок'
