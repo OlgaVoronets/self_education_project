@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from materials.serializers import PassedTestingSerializer
 from users.models import User
 
 
@@ -14,11 +15,11 @@ class UserSerializer(serializers.ModelSerializer):
 class UserDetailSerializer(serializers.ModelSerializer):
     """Сериализатор для просмотра профиля пользователя,
        включает поле успешно пройденных тестов"""
-    completed_tests = ...
+    completed_tests = PassedTestingSerializer(source='passedtesting_set', many=True)
 
     class Meta:
         model = User
-        exclude = ['password']
+        fields = ('email', 'role', 'last_login', 'completed_tests')
 
 
 class UserListSerializer(serializers.ModelSerializer):
