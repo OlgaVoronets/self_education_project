@@ -2,7 +2,7 @@ from rest_framework import serializers
 from rest_framework.fields import SerializerMethodField
 from rest_framework.relations import SlugRelatedField
 
-from materials.models import Course, Lesson, Testing, Answer
+from materials.models import Course, Lesson, Testing, Answer, PassedTesting
 
 
 class CourseSerializer(serializers.ModelSerializer):
@@ -35,6 +35,13 @@ class AnswerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Answer
         fields = ('text', 'is_correct')
+
+
+class PassedTestingSerializer(serializers.ModelSerializer):
+    """Базовый сериализатор для модели пройденного теста"""
+    class Meta:
+        model = PassedTesting
+        fields = '__all__'
 
 
 class CourseDetailSerializer(serializers.ModelSerializer):
@@ -78,3 +85,4 @@ class TestingDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Testing
         fields = ('lesson', 'text', 'answers_list')
+

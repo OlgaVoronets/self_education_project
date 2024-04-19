@@ -28,23 +28,26 @@ class UserCreateView(generics.CreateAPIView):
 
 
 class UserDetailView(generics.RetrieveAPIView):
-    """Просмотр профиля пользователя"""
+    """Просмотр профиля пользователя, доступно авторизованным пользователям"""
     serializer_class = UserDetailSerializer
     queryset = User.objects.all()
 
 
 class UserUpdateView(generics.UpdateAPIView):
-    """Редактирование профиля пользователя"""
+    """Редактирование профиля пользователя, доступно только пользователю"""
     serializer_class = UserSerializer
     queryset = User.objects.all()
 
+    def get_object(self):
+        return self.request.user
+
 
 class UserDeleteView(generics.DestroyAPIView):
-    """Удаление профиля пользователя"""
+    """Удаление профиля пользователя, доступно администраторам платформы"""
     queryset = User.objects.all()
 
 
 class UserListView(generics.ListAPIView):
-    """Просмотр списка зарегистрированных пользователей"""
+    """Просмотр списка зарегистрированных пользователей, доступно администраторам платформы"""
     serializer_class = UserListSerializer
     queryset = User.objects.all()

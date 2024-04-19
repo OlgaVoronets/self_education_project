@@ -1,5 +1,7 @@
 from django.db import models
 
+from users.models import User
+
 NULLABLE = {'null': True, 'blank': True}
 
 
@@ -55,3 +57,16 @@ class Answer(models.Model):
     class Meta:
         verbose_name = 'Ответ'
         verbose_name_plural = 'Ответы'
+
+
+class PassedTesting(models.Model):
+    """Модель пройденного теста, экземпляр создается в случае правильного ответа на тестовый вопрос"""
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
+    testing = models.ForeignKey(Testing, on_delete=models.CASCADE, verbose_name='Тестирование')
+
+    def __str__(self):
+        return {self.testing}
+
+    class Meta:
+        verbose_name = 'Пройденный тест'
+        verbose_name_plural = 'Пройденные тесты'
