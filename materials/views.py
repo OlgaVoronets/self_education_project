@@ -40,7 +40,6 @@ class CourseListView(generics.ListAPIView):
     """Контроллер для просмотра списка курсов, доступно авторизованным пользователям"""
     serializer_class = CourseSerializer
     queryset = Course.objects.all()
-    permission_classes = [IsModerator]
 
 
 """CRUD для модели урока"""
@@ -89,7 +88,7 @@ class TestingListCreateView(generics.ListCreateAPIView):
     метод GET выводит список экземпляров"""
     serializer_class = TestingSerializer
     queryset = Testing.objects.all()
-    # permission_classes = [IsModerator]
+    permission_classes = [IsModerator]
 
 
 class TestingDetailDeleteView(generics.RetrieveDestroyAPIView):
@@ -98,7 +97,7 @@ class TestingDetailDeleteView(generics.RetrieveDestroyAPIView):
         метод GET выводит экземпляр для просмотра"""
     serializer_class = TestingDetailSerializer
     queryset = Testing.objects.all()
-    # permission_classes = [IsModerator]
+    permission_classes = [IsModerator]
 
 
 """CRUD для модели ответа"""
@@ -113,7 +112,7 @@ class AnswerListCreateView(generics.ListCreateAPIView):
     filter_backends = [DjangoFilterBackend, OrderingFilter]
     filterset_fields = ('testing',)
     ordering_fields = ('id',)
-    # permission_classes = [IsModerator]
+    permission_classes = [IsModerator]
 
 
 class AnswerDetailDeleteView(generics.RetrieveDestroyAPIView):
@@ -122,4 +121,4 @@ class AnswerDetailDeleteView(generics.RetrieveDestroyAPIView):
         метод GET выводит экземпляр для просмотра"""
     serializer_class = AnswerSerializer
     queryset = Answer.objects.all()
-    # permission_classes = [IsModerator]
+    permission_classes = [IsModerator]

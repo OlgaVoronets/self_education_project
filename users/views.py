@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 
 from users.models import User
+from users.permissions import IsModerator, IsOwner
 from users.serializers import UserSerializer, UserDetailSerializer, UserListSerializer
 
 
@@ -37,17 +38,17 @@ class UserUpdateView(generics.UpdateAPIView):
     """Редактирование профиля пользователя, доступно только пользователю"""
     serializer_class = UserSerializer
     queryset = User.objects.all()
-
-    def get_object(self):
-        return self.request.user
+    permission_classes = [IsOwner]
 
 
 class UserDeleteView(generics.DestroyAPIView):
-    """Удаление профиля пользователя, доступно администраторам платформы"""
+    """Удаление профиля пользователя, доступно только пользователю"""
     queryset = User.objects.all()
+    permission_classes = [IsOwner]
 
 
 class UserListView(generics.ListAPIView):
     """Просмотр списка зарегистрированных пользователей, доступно администраторам платформы"""
     serializer_class = UserListSerializer
     queryset = User.objects.all()
+    permission_classes = [IsModerator]
