@@ -92,7 +92,7 @@ class TestingDetailSerializer(serializers.ModelSerializer):
 class LessonTestingSerializer(serializers.ModelSerializer):
     """Сериализатор для ответа на тестовый вопрос"""
     user = SerializerMethodField()
-    testings = SerializerMethodField()
+    testing = SerializerMethodField()
     answers = SerializerMethodField()
 
     def get_user_(self):
@@ -102,14 +102,12 @@ class LessonTestingSerializer(serializers.ModelSerializer):
             return request.user
         return None
 
-    def get_testings(self, lesson):
-        return Testing.objects.filter(lesson=lesson)
+    def get_testing(self, lesson):
+        return Testing.objects.get(lesson=lesson)
 
-    def get_answers(self, testings):
-        answers = []
-        for testing in testings:
-            answers.append(Answer.objects.filter(testing=testing))
-        return answers
+    def get_answers(self, testing):
+        return Answer.objects.filter(testing=testing)
+
     class Meta:
         model = Lesson
         fields = '__all__'

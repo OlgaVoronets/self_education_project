@@ -135,10 +135,16 @@ class LessonTestingView(APIView):
     """Контроллер прохождения тестового задания
        в запросе передаем id урока """
     serializer_class = LessonTestingSerializer
-    queryset = Lesson.objects.all()
     def post(self, pk):
         lesson = Lesson.objects.get(pk=pk)  #  тут мне надо вернуть json для фронтенда, получить от пользователя ответ и дать обратную связь
 
-
-
+# class LessonTestingView(generics.CreateAPIView):
+#     """Контроллер прохождения тестового задания
+#        в запросе передаем id урока """
+#     serializer_class = LessonTestingSerializer
+#
+#     def post(self, request, pk):
+#         lesson = Lesson.objects.get(id=pk)
+#
+#         return self.create(request)
 
