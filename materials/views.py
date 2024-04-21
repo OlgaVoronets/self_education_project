@@ -137,7 +137,7 @@ class LessonTestingView(APIView):
     serializer_class = LessonTestingSerializer
     queryset = Lesson.objects.all()
     def post(self, pk):
-        lesson = Lesson.objects.get(pk=pk)
+        lesson = Lesson.objects.get(pk=pk)  #  тут мне надо вернуть json для фронтенда, получить от пользователя ответ и дать обратную связь
 
 
 
