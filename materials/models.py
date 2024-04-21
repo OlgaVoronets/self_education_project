@@ -35,10 +35,11 @@ class Lesson(models.Model):
 class Testing(models.Model):
     """Тестовое задание, относится к одному конкретному уроку"""
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, verbose_name='Урок')
+    title = models.TextField(default='Тестовое задание к уроку', verbose_name='Название')
     text = models.TextField(verbose_name='Текст задания', **NULLABLE)
 
     def __str__(self):
-        return f'Тестовое задание к уроку {self.lesson}'
+        return self.title
 
     class Meta:
         verbose_name = 'Тест'

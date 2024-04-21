@@ -1,11 +1,15 @@
+
 from rest_framework import generics
+from rest_framework.views import APIView
 
 from materials.models import Course, Lesson, Testing, Answer
 from materials.serializers import CourseSerializer, CourseDetailSerializer, LessonSerializer, LessonDetailSerializer, \
-    TestingSerializer, TestingDetailSerializer, AnswerSerializer
+    TestingSerializer, TestingDetailSerializer, AnswerSerializer, LessonTestingSerializer
+from materials.services import testing_func
 from users.permissions import IsModerator
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter
+from rest_framework.response import Response
 
 
 """CRUD для модели курса"""
@@ -122,3 +126,19 @@ class AnswerDetailDeleteView(generics.RetrieveDestroyAPIView):
     serializer_class = AnswerSerializer
     queryset = Answer.objects.all()
     permission_classes = [IsModerator]
+
+
+"""Тестовое задание"""
+
+
+class LessonTestingView(APIView):
+    """Контроллер прохождения тестового задания
+       в запросе передаем id урока """
+    serializer_class = LessonTestingSerializer
+    queryset = Lesson.objects.all()
+    def post(self, pk):
+        lesson = Lesson.objects.get(pk=pk)
+
+
+
+

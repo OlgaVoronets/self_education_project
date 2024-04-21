@@ -39,9 +39,11 @@ class AnswerSerializer(serializers.ModelSerializer):
 
 class PassedTestingSerializer(serializers.ModelSerializer):
     """Базовый сериализатор для модели пройденного теста"""
+    testing = SlugRelatedField(slug_field='title', queryset=Testing.objects.all())
+
     class Meta:
         model = PassedTesting
-        fields = '__all__'
+        fields = ('testing',)
 
 
 class CourseDetailSerializer(serializers.ModelSerializer):
@@ -86,3 +88,28 @@ class TestingDetailSerializer(serializers.ModelSerializer):
         model = Testing
         fields = ('lesson', 'text', 'answers_list')
 
+
+class LessonTestingSerializer(serializers.ModelSerializer):
+    """Сериализатор для ответа на тестовый вопрос"""
+    user = SerializerMethodField()
+    testings = SerializerMethodField()
+    answers = SerializerMethodField()
+
+    def get_user_(self):
+        """Получаем текущего пользователя"""
+        request = self.context.get('request', None)
+        if request:
+            return request.user
+        return None
+
+    def get_testings(self, lesson):
+        return Testing.objects.filter(lesson=lesson)
+
+    def get_answers(self, testings):
+        answers = []
+        for testing in testings:
+            answers.append(Answer.objects.filter(testing=testing))
+        return answers
+    class Meta:
+        model = Lesson
+        fields = '__all__'
