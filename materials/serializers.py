@@ -87,27 +87,3 @@ class TestingDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Testing
         fields = ('lesson', 'text', 'answers_list')
-
-
-class LessonTestingSerializer(serializers.ModelSerializer):
-    """Сериализатор для ответа на тестовый вопрос"""
-    user = SerializerMethodField()
-    testing = SerializerMethodField()
-    answers = SerializerMethodField()
-
-    def get_user_(self):
-        """Получаем текущего пользователя"""
-        request = self.context.get('request', None)
-        if request:
-            return request.user
-        return None
-
-    def get_testing(self, lesson):
-        return Testing.objects.get(lesson=lesson)
-
-    def get_answers(self, testing):
-        return Answer.objects.filter(testing=testing)
-
-    class Meta:
-        model = Lesson
-        fields = '__all__'
