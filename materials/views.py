@@ -1,9 +1,12 @@
+import requests.exceptions
 from rest_framework import generics
 from rest_framework.views import APIView
 
 from materials.models import Course, Lesson, Testing, Answer, PassedTesting
 from materials.serializers import CourseSerializer, CourseDetailSerializer, LessonSerializer, LessonDetailSerializer, \
     TestingSerializer, TestingDetailSerializer, AnswerSerializer
+from materials.services import testing_func
+from users.models import User
 
 from users.permissions import IsModerator
 from django_filters.rest_framework import DjangoFilterBackend
@@ -142,11 +145,12 @@ class LessonTestingView(APIView):
         testing = Testing.objects.get(lesson=lesson)
         text = testing.text
         answers = Answer.objects.filter(testing=testing)
-        return Response({'testing_text': text, 'answers': [f'{i + 1}  {answers[i]}' for i in range(len(answers))],
+        return Response({'testing_text': text, 'answers': [f'{i + 1}.  {answers[i]}' for i in range(len(answers))],
                          'question': 'Прочитайте условие задачи и выберите правильный ответ из предложенных вариантов'})
 
     def post(self, request, pk):
-        user = 1  # Для демонстрации работы контроллера id пользователя указан принудительно
+
+        user = User.objects.get(id=2)  # Для демонстрации работы контроллера id пользователя указан принудительно
         # user = request.user #Строку раскомментировать перед публикацией проекта
         lesson = Lesson.objects.get(id=pk)
         testing = Testing.objects.get(lesson=lesson)
@@ -154,7 +158,7 @@ class LessonTestingView(APIView):
         content = request.data
 
         # Проверяем правильность ответа
-        if answers[content - 1].is_correct:
+        if answers[int(content) - 1].is_correct:
             message = "Верно!"
             #  Создаем объект класса "пройденный тест", если тест пройден повторно - не создаем
             if not PassedTesting.objects.filter(user=user, testing=testing).exists():
@@ -164,14 +168,17 @@ class LessonTestingView(APIView):
 
         return Response({"message": message})
 
+
+
 # class LessonTestingView(APIView):
 #     """Контроллер прохождения тестового задания
 #        в запросе передаем id урока
 #        Раскомментировать для демонстрации работы через консоль"""
-#     serializer_class = LessonTestingSerializer
+#     serializer_class = TestingSerializer
+#
 #     def post(self, request, pk):
 #         lesson = Lesson.objects.get(pk=pk)
 #         user = request.user
 #         testing_func(user, lesson)
-#         message  = 'тестирование завершено'
+#         message = 'тестирование завершено'
 #         return Response(message)
